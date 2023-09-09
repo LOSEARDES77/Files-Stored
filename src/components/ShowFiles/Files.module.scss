@@ -1,0 +1,36 @@
+.imageLink{
+    width: 256px;
+    height: 192px;
+    object-fit: cover;
+}
+
+.fileGrid{
+    margin: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto, minmax(256px, 1fr)) ;
+    gap: 30px;
+    justify-content: center;
+}
+
+.file{
+    width: 256px;
+    height: 192px;
+    background: rgba(28, 91, 103, 0.6);
+    background: linear-gradient(45deg, rgba(0,127,255,0.6) 0%, rgb(45, 202, 255, 0.6) 50%, rgb(70, 82, 255, 0.6) 100%); 
+    cursor: pointer;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lable{
+    font-size: 13px;
+    font-weight: bold;
+    margin-top: 4px;
+    margin-right: 10px;
+    margin-left: 10px;
+    text-align: center;
+    color: #eeeeee;
+}
