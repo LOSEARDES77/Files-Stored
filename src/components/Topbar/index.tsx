@@ -1,12 +1,13 @@
 import React from "react";
-import { userFetchSession } from "@/hook/useSession";
+import { getEmail, userFetchSession } from "@/hook/useSession";
 import { signIn, signOut } from "next-auth/react";
 import Button from "@/components/Common/Button";
 import styles from "@/components/Topbar/Topbar.module.scss";
 import UploadFiles from "../UploadFiles";
 
 export default function TopBar({parentId = ""}:{parentId: string}) {
-  let session = userFetchSession();
+  const session = userFetchSession();
+  const name = getEmail().split('@')[0]
   return (
     <div className={styles.page}>
       {session ? (
@@ -16,14 +17,8 @@ export default function TopBar({parentId = ""}:{parentId: string}) {
             <span
               className={`text-5xl font-extrabold tracking-tight text-white sm:text-[1.6rem] ${styles.lable}`}
             >
-              Welcome {session.user.name}
+              Welcome {name}
             </span>
-            
-            <img
-                className={styles.profilaImg}
-                src={session?.user.image as string}
-                alt=""
-              />
               <Button
               btnClass={`btn-error btn-outline ${styles.sobutton}`}
               lable="Sing Out"

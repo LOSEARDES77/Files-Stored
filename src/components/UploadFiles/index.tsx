@@ -8,7 +8,7 @@ import { v4 as randUUID } from "uuid";
 import { useRouter } from "next/router";
 import { AiFillHome } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { userFetchSession } from "@/hook/useSession";
+import { getEmail } from "@/hook/useSession";
 
 export default function UploadFiles({ parentId = "" }: { parentId: string }) {
   const [progress, setProgress] = useState(0);
@@ -18,7 +18,7 @@ export default function UploadFiles({ parentId = "" }: { parentId: string }) {
   const folderId = () => {
     return randUUID();
   };
-  const email = userFetchSession()?.user.email;
+  const email = getEmail();
 
   const router = useRouter();
   const uploadFile = (event: ChangeEvent<HTMLInputElement>) => {

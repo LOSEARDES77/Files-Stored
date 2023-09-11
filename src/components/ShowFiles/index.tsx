@@ -5,10 +5,10 @@ import { fetchFiles } from "@/hook/fetchFiles";
 import { AiFillFileText, AiFillVideoCamera } from "react-icons/ai";
 import { FcOpenedFolder } from "react-icons/fc";
 import { useRouter } from "next/router";
-import { userFetchSession } from "@/hook/useSession";
+import { getEmail } from "@/hook/useSession";
 
 export default function ShowFiles({ parentId }: { parentId: string }) {
-  const email = userFetchSession()?.user.email as string;
+  const email = getEmail()
   let { fileList } = fetchFiles({ parentId, email });
   const router = useRouter();
   const openFile = (imageLink: string) => {

@@ -1,7 +1,11 @@
-import { useSession } from "next-auth/react"
+import { auth } from '@/firebaseConfig'
 
 export const userFetchSession = () => {
-    const {data: session} = useSession()
-
-    return ( session )
+    const session = auth.currentUser
+    return {session}
 }
+
+export const getEmail = () => {
+    return auth.currentUser?.email as string
+}
+
