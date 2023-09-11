@@ -29,13 +29,8 @@ export default function ShowFiles({ parentId }: { parentId: string }) {
           let fe = ""
           if (file.imageName !== "") {
             if (file.imageName) {
-              if (typeof file.imageName === "string") {
-                if (typeof file.imageName === "string") {
-                  if (typeof file.imageName === "string") {
-                    fe = file.imageName.split(".").pop() || "";
-                  }
-                }
-              }
+              let a = file.imageName as string;
+              fe = a.split(".").pop() || "";
             }
           }
           return (
