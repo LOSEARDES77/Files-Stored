@@ -38,7 +38,7 @@
 .page{
     margin: 0;
     padding: 0;
-    height: 100vh;
+    height: 60px;
     width: 100vw;
 }
 
@@ -54,4 +54,8 @@
     font-weight: 500;
     text-align: center;
     max-width: 700px;   
+}
+
+.topbar{
+    margin: 14px;
 }

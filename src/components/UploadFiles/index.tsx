@@ -3,36 +3,79 @@ import styles from "./Upload.module.scss";
 import Button from "../Common/Button";
 import { fileUpload } from "@/utils/fileUpload";
 import Progress from "@/components/Common/Progress";
-import { set } from "zod";
 import { addFolder } from "@/utils/Firestore";
+import { v4 as randUUID } from "uuid";
+import { useRouter } from "next/router";
+import { AiFillHome } from "react-icons/ai";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { userFetchSession } from "@/hook/useSession";
 
-export default function UploadFiles() {
+export default function UploadFiles({ parentId = "" }: { parentId: string }) {
   const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isFolderVisible, setFolderVisible] = useState(false);
   const [folderName, setFolderName] = useState("");
+  const folderId = () => {
+    return randUUID();
+  };
+  const email = userFetchSession()?.user.email;
+
+  const router = useRouter();
   const uploadFile = (event: ChangeEvent<HTMLInputElement>) => {
     let file = event.target.files?.[0];
-    fileUpload(file, setProgress);
+    fileUpload(file, setProgress, parentId, email as string);
   };
 
   const handleAddFileClick = () => {
     fileInputRef.current?.click();
   };
-
   const uploadFolder = () => {
+    let fn = "";
+    fn = folderName;
+    if (fn === "" || fn === " " || fn === null) return;
+    if (fn.length > 20) {
+      alert("Folder name should be less than 20 characters");
+      setFolderName("");
+      return;
+    }
+    while (true) {
+      if (fn.startsWith(" ")) {
+        fn = fn.trimStart();
+      } else {
+        break;
+      }
+    }
+    fn = fn.trimEnd();
     let payload = {
+      uuid: folderId(),
       folderName: folderName,
       isFolder: true,
       FileList: [],
+      parentId: parentId || "",
+      email: email as string,
     };
-    addFolder(payload)
-    setFolderName("")
+    addFolder(payload);
+    setFolderName("");
   };
   return (
-    <div
-      className={`font-extrabold tracking-tight text-white sm:text-[1.6rem] ${styles.Upload}`}
-    >
+    <div className={`${styles.Upload}`}>
+      {parentId !== "" ? (
+        <>
+          <Button
+            btnClass={`btn-info ${styles.home} ${styles.btn}`}
+            lable={<AiFillHome />}
+            onClick={() => router.push("/")}
+          />
+
+          <Button
+            btnClass={`btn-info ${styles.btn}`}
+            lable={<IoMdArrowRoundBack/>}
+            onClick={() => router.back()}
+          />
+        </>
+      ) : (
+        <></>
+      )}
       <Button
         onClick={handleAddFileClick}
         btnClass={`btn-info ${styles.btn}`}
@@ -52,14 +95,23 @@ export default function UploadFiles() {
 
       {isFolderVisible ? (
         <div className={styles.folderinput}>
-         <input
+          <input
             type="text"
             placeholder="Type here"
             value={folderName}
             onChange={(e) => setFolderName(e.target.value)}
             className={`input input-bordered w-full max-w-xs ${styles.btn}`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                uploadFolder();
+              }
+            }}
           />
-          <Button btnClass={`${styles.btn}`} lable="Add" onClick={uploadFolder} />
+          <Button
+            btnClass={`${styles.btn}`}
+            lable="Add"
+            onClick={uploadFolder}
+          />
         </div>
       ) : (
         <></>

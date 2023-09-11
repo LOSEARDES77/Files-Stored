@@ -1,7 +1,7 @@
 
 interface Button {
     btnClass?: string
-    lable: string
+    lable: any
     onClick?: () => void
 }
 

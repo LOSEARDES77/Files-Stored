@@ -5,13 +5,13 @@ import Button from "@/components/Common/Button";
 import styles from "@/components/Topbar/Topbar.module.scss";
 import UploadFiles from "../UploadFiles";
 
-export default function TopBar() {
+export default function TopBar({parentId = ""}:{parentId: string}) {
   let session = userFetchSession();
   return (
     <div className={styles.page}>
       {session ? (
-        <div>
-          <UploadFiles />
+        <div className={styles.topbar}>
+          <UploadFiles parentId={parentId}/>
           <div className={styles.singout}>
             <span
               className={`text-5xl font-extrabold tracking-tight text-white sm:text-[1.6rem] ${styles.lable}`}
@@ -19,19 +19,15 @@ export default function TopBar() {
               Welcome {session.user.name}
             </span>
             
-            <details className="dropdown mb-32"><summary className="dropdown-button">
             <img
                 className={styles.profilaImg}
                 src={session?.user.image as string}
                 alt=""
               />
-              </summary>
-              <div className="dropdown-content"><Button
+              <Button
               btnClass={`btn-error btn-outline ${styles.sobutton}`}
               lable="Sing Out"
-              onClick={() => signOut()}
-            /></div>
-            </details>
+              onClick={() => signOut()}/>
             
           </div>
         </div>

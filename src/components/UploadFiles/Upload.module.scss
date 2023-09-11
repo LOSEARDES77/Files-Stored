@@ -1,10 +1,13 @@
 .Upload{
-    margin: 18px;
+    margin: 14px;
     display: inline;
 }
 
 .btn{
     margin-right: 14px;
+    max-height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .folderinput{
@@ -17,7 +20,7 @@
 
 .progress{
     margin-top: 10px;
-    margin-right: 20px;
+    margin-right: 14px;
     height: 5px;
     width: 32px;
     display : inline;
