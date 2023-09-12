@@ -19,3 +19,5 @@ export default function Home() {
     </>
   );
 }
+
+// TODO: add function to delete files from storage and firestore

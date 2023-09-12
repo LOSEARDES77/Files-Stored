@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import styles from "../login.module.scss";
 import Button from "@/components/Common/Button";
 
-export default function login() {
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,9 +20,9 @@ export default function login() {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/");
     } catch (error) {
-      let err = error as Error;
+      const err = error as Error;
       errmsg = err.message;
-      setError(errmsg.split("Firebase: ")[1] || "Something went wrong!");
+      setError(errmsg.split("Firebase: ")[1] ?? "Something went wrong!");
       sendModal();
       setEmail("");
       setPassword("");
@@ -56,12 +56,12 @@ export default function login() {
         />
       </div>
       <Button
-        onClick={handleLogin}
+        onClick={() => handleLogin()}
         btnClass={`btn-info ${styles.btn}`}
         lable="Log in"
       />
       <div className={styles.alracc}>
-        <p>Don't have an account yet?</p>
+        <p>Don&apos;t have an account yet?</p>
         <Button
           btnClass={`btn-info`}
           lable="Sign up"

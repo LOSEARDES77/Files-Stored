@@ -7,13 +7,13 @@ export const useSession = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setIsLogin(true)
-        setEmail(user.email as string)
-      } else {
-        setIsLogin(false)
-        setEmail('')
-      }
+        if (user) {
+            setIsLogin(true)
+            setEmail(user.email!)
+        } else {
+            setIsLogin(false)
+            setEmail('')
+        }
     })
 
     return unsubscribe

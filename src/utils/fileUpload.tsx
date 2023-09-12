@@ -1,8 +1,8 @@
-import { storage, app, database } from "@/firebaseConfig"
+import { storage } from "@/firebaseConfig"
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage"
 import { addFiles } from "@/utils/Firestore"
 
-export const fileUpload = (file: any, setProgress: Function, parentId: string, email: string) => {
+export const fileUpload = (file: any, setProgress: (progress: number) => void, parentId: string, email: string) => {
     const storageRef = ref(storage, `files/${file.name}`)
     const uploadTask = uploadBytesResumable(storageRef, file)
     uploadTask.on(

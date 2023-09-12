@@ -7,8 +7,8 @@ import styles from "./folder.module.scss";
 import Button from "@/components/Common/Button";
 
 export default function Folder() {
-  let router = useRouter();
-  let uuid = router?.query?.id;
+  const router = useRouter();
+  const uuid = router?.query?.id;
   const { isLogin, email } = useSession();
   const checkPermission = () => {
     if (uuid === undefined) {

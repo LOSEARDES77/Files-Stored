@@ -2,9 +2,9 @@ import { onSnapshot, collection } from "firebase/firestore"
 import { database } from "@/firebaseConfig"
 import { useState, useEffect } from "react"
 
-let files = collection(database, "files")
+const files = collection(database, "files")
 
-export const fetchFiles =  (parentId: string, email: string) => {
+export const useFetchFiles =  (parentId: string, email: string) => {
     const [fileList, setFileList] = useState<ArrayType>([{
         imageLink: "", id: ""
     }])

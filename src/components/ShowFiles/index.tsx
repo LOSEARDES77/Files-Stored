@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styles from "@/components/ShowFiles/Files.module.scss";
-import { fetchFiles } from "@/hook/fetchFiles";
+import { useFetchFiles } from "@/hook/fetchFiles";
 import { AiFillFileText,  AiOutlineLink } from "react-icons/ai";
 import { FcOpenedFolder } from "react-icons/fc";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function ShowFiles({
   parentId,
@@ -12,7 +13,7 @@ export default function ShowFiles({
   parentId: string;
   email: string;
 }) {
-  let { fileList } = fetchFiles(parentId, email);
+  const { fileList } = useFetchFiles(parentId, email);
   const router = useRouter();
   const openFile = (imageLink: string) => {
     window.open(imageLink);
@@ -47,8 +48,8 @@ export default function ShowFiles({
             let fe = "";
             if (file.imageName !== "") {
               if (file.imageName) {
-                let a = file.imageName as string;
-                fe = a.split(".").pop() || "";
+                const a = file.imageName as string;
+                fe = a.split(".").pop() ?? "";
               }
             }
             return (
@@ -83,6 +84,7 @@ export default function ShowFiles({
                         fe === "bmp" ? (
                         <img
                           src={file.imageLink}
+                          alt={file.imageName}
                           className={styles.imageLink}
                         />
                       ) : fe === "mp3" ||

@@ -1,7 +1,7 @@
 
 interface Button {
     btnClass?: string
-    lable: any
+    lable: string | JSX.Element
     onClick?: () => void
 }
 
@@ -15,12 +15,7 @@ interface GithubAuth {
 }
 
 interface ArrayType {
-    map: Function
+    [key: string]: any
 }
 
-interface imageCard {
-    src: string
-    title: string
-    lable?: string
-    className?: string
-}
+

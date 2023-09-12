@@ -1,7 +1,7 @@
 import { database } from "@/firebaseConfig";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
-let files = collection(database, "files");
+const files = collection(database, "files");
 
 export const addFiles = (
   imageLink: string,

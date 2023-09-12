@@ -4,7 +4,6 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import styles from "../login.module.scss";
 import Button from "@/components/Common/Button";
 import { useRouter } from "next/router";
-import { set } from "zod";
 let human = null;
 
 export default function SingUp() {
@@ -31,9 +30,9 @@ export default function SingUp() {
       );
       router.push("/");
     } catch (error) {
-      let err = error as Error;
-      let errmsg = err.message;
-      setError(errmsg.split("Firebase: ")[1] || "Something went wrong!");
+      const err = error as Error;
+      const errmsg = err.message;
+      setError(errmsg.split("Firebase: ")[1] ?? "Something went wrong!");
       sendModal();
       setEmail("");
       setPassword("");
@@ -118,7 +117,7 @@ export default function SingUp() {
       </div>
 
       <Button
-        onClick={handleSignUp}
+        onClick={() => handleSignUp()}
         btnClass={`btn-info ${styles.btn}`}
         lable="Sing Up"
       />

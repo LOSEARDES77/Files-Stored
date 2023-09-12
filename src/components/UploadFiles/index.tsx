@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./Upload.module.scss";
 import Button from "../Common/Button";
 import { fileUpload } from "@/utils/fileUpload";
@@ -29,9 +29,9 @@ export default function UploadFiles({ parentId = "" }: { parentId: string }) {
     return false;
   };
   const router = useRouter();
-  const uploadFile = (event: ChangeEvent<HTMLInputElement>) => {
-    let file = event.target.files?.[0];
-    fileUpload(file, setProgress, parentId, email as string);
+  const uploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    fileUpload(file, setProgress, parentId, email);
   };
 
   const handleAddFileClick = () => {
@@ -54,13 +54,13 @@ export default function UploadFiles({ parentId = "" }: { parentId: string }) {
       }
     }
     fn = fn.trimEnd();
-    let payload = {
+    const payload = {
       uuid: folderId(),
       folderName: folderName,
       isFolder: true,
       FileList: [],
       parentId: parentId || "",
-      email: email as string,
+      email: email,
     };
     addFolder(payload);
     setFolderName("");
