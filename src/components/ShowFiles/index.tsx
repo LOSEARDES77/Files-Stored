@@ -2,17 +2,21 @@ import React from "react";
 import styles from "@/components/ShowFiles/Files.module.scss";
 import { fetchFiles } from "@/hook/fetchFiles";
 /* import Card from "../Common/imgCard"; */
-import { AiFillFileText, AiFillVideoCamera } from "react-icons/ai";
+import { AiFillFileText, AiFillVideoCamera, AiOutlineLink } from "react-icons/ai";
 import { FcOpenedFolder } from "react-icons/fc";
 import { useRouter } from "next/router";
 import { getEmail } from "@/hook/useSession";
 
-export default function ShowFiles({ parentId }: { parentId: string }) {
-  const email = getEmail() as string;
+
+export default function ShowFiles({ parentId, email }: { parentId: string, email: string }) {
   let { fileList } = fetchFiles( parentId, email );
   const router = useRouter();
   const openFile = (imageLink: string) => {
     window.open(imageLink);
+  };
+  const share = (il: string) => {
+    // copy imagelink to clipboard
+    navigator.clipboard.writeText(il);
   };
   return (
     <div className={styles.fileGrid}>
@@ -47,8 +51,8 @@ export default function ShowFiles({ parentId }: { parentId: string }) {
               ) : (
                 <div
                   className={`bg-info ${styles.file}`}
-                  onClick={() => openFile(file.imageLink)}
                 >
+                  <div onClick={() => openFile(file.imageLink)}>
                   {file.imageLink === "" ? (
                     <AiFillFileText size={80} color="#f8fefc" />
                   ) : fe === "mp4" || fe === "webm" ? (
@@ -58,9 +62,11 @@ export default function ShowFiles({ parentId }: { parentId: string }) {
                   ): fe === "mp3" || fe === "wav" || fe === "ogg" || fe === "aac" || fe === "m4a" || fe === "wma" || fe === "flac" ? (
                     <audio src={file.imageLink} controls={true} className={styles.audio} />
                   ) : (
-                    <AiFillVideoCamera size={80} color="#f8fefc" />
+                    <AiFillFileText size={80} color="#f8fefc" />
                   )}
+                  </div>
                   <p className={styles.lable}>{file.imageName}</p>
+                  <div onClick={() => share(file.imageLink)} className={`${styles.share}`}> <AiOutlineLink size={30} color="#f8fefc" /> </div>
                 </div>
               )}
             </div>

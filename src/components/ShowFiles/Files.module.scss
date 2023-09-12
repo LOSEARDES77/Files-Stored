@@ -1,6 +1,6 @@
 .imageLink{
     width: 256px;
-    height: 192px;
+    height: 142px;
     object-fit: cover;
     border-radius: 10px 10px 0 0;
 }
@@ -8,7 +8,7 @@
 .fileGrid{
     margin: 30px;
     display: grid;
-    grid-template-columns: repeat( 6,auto) ;
+    grid-template-columns: repeat(6, auto);
     gap: 30px;
     justify-content: center;
 }

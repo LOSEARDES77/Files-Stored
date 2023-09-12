@@ -1,16 +1,41 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import TopBar from '@/components/Topbar'
-import ShowFiles from '@/components/ShowFiles'
-
+import React from "react";
+import { useRouter } from "next/router";
+import TopBar from "@/components/Topbar";
+import ShowFiles from "@/components/ShowFiles";
+import { getEmail, isLogin } from "@/hook/useSession";
 
 export default function Folder() {
-  let router = useRouter()
-  let uuid = router?.query?.id
+  let router = useRouter();
+  let uuid = router?.query?.id;
+  let email = getEmail() as string;
+  const checkPermission = () => {
+    if (uuid === undefined) {
+      router.push("/");
+      return;
+    } else {
+      if (email === "" || email === null) {
+        router.push("/");
+        return;
+      }
+    }
+  };
   return (
     <>
-      <TopBar parentId={uuid as string} />
-      <ShowFiles parentId={uuid as string} />
+      {isLogin() ? (
+        <>
+          {checkPermission()}
+          <TopBar parentId={uuid as string} email={email} />
+          <ShowFiles parentId={uuid as string} email={email} />
+        </>
+      ) : (
+        <>
+        {// TODO: add some style here to center this //
+        }
+          <div className={` `}>
+            Please consider login first!
+          </div>
+        </>
+      )}
     </>
-  )
+  );
 }

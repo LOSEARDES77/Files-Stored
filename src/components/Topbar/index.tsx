@@ -1,20 +1,18 @@
 import React from "react";
-import { getEmail, userFetchSession } from "@/hook/useSession";
 import Button from "@/components/Common/Button";
 import styles from "@/components/Topbar/Topbar.module.scss";
 import UploadFiles from "../UploadFiles";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
+import { isLogin } from "@/hook/useSession";
 
-export default function TopBar({parentId = ""}:{parentId: string}) {
-  const session = userFetchSession();
-  const email = getEmail()
+export default function TopBar({parentId = "", email = ""}:{parentId: string, email: string}) {
   const name = email?.split("@")[0]
   const router = useRouter();
   return (
     <div className={styles.page}>
-      {email ? (
+      {isLogin() ? (
         <div className={styles.topbar}>
           <UploadFiles parentId={parentId}/>
           <div className={styles.singout}>

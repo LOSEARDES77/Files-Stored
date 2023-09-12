@@ -4,14 +4,19 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import styles from "../login.module.scss";
 import Button from "@/components/Common/Button";
 import { useRouter } from "next/router";
+import { set } from "zod";
 let human = null;
 
 export default function SingUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirm] = useState("");
+  const [error, setError] = useState(""); 
   const router = useRouter();
-  let user = null;
+  const sendModal = () => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    modal?.showModal();
+  };
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
       alert("Password and Confirm Password should be same");
@@ -26,7 +31,13 @@ export default function SingUp() {
       );
       router.push("/");
     } catch (error) {
-      // Handle sign-up errors
+      let err = error as Error;
+      let errmsg = err.message;
+      setError(errmsg.split("Firebase: ")[1] || "Something went wrong!");
+      sendModal();
+      setEmail("");
+      setPassword("");
+      setConfirm("");
     }
   };
 
@@ -119,6 +130,21 @@ export default function SingUp() {
           onClick={() => router.push("/auth/login")}
         />
       </div>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="text-lg font-bold">There was an error:<br/><br/></h3>
+          <p className="py-4">
+            {error}
+          </p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">Close</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }
