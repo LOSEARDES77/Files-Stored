@@ -2,26 +2,23 @@ import React from "react";
 import { useRouter } from "next/router";
 import TopBar from "@/components/Topbar";
 import ShowFiles from "@/components/ShowFiles";
-import { getEmail, isLogin } from "@/hook/useSession";
+import { useSession } from "@/hook/useSession";
+import styles from "./folder.module.scss";
+import Button from "@/components/Common/Button";
 
 export default function Folder() {
   let router = useRouter();
   let uuid = router?.query?.id;
-  let email = getEmail() as string;
+  const { isLogin, email } = useSession();
   const checkPermission = () => {
     if (uuid === undefined) {
       router.push("/");
       return;
-    } else {
-      if (email === "" || email === null) {
-        router.push("/");
-        return;
-      }
     }
   };
   return (
     <>
-      {isLogin() ? (
+      {isLogin ? (
         <>
           {checkPermission()}
           <TopBar parentId={uuid as string} email={email} />
@@ -31,8 +28,9 @@ export default function Folder() {
         <>
         {// TODO: add some style here to center this //
         }
-          <div className={` `}>
+          <div className={`${styles.nologin} `}>
             Please consider login first!
+            <Button btnClass={`btn-info ${styles.btn}`} lable="Go to login" onClick={() => router.push("/auth/login")}/>
           </div>
         </>
       )}

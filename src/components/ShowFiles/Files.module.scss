@@ -2,7 +2,11 @@
     width: 256px;
     height: 142px;
     object-fit: cover;
+    margin-top: 0;
     border-radius: 10px 10px 0 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .fileGrid{
@@ -21,7 +25,6 @@
     cursor: pointer;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
 }
@@ -39,4 +42,10 @@
 .audio{
     transform: scale(0.8);
     border-radius: 10px;
+}
+
+.link{
+    margin-left: 220px;
+    
+
 }

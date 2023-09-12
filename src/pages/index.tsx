@@ -1,13 +1,14 @@
 import Head from "next/head";
 import HomePage from "@/components/Home";
-import { userFetchSession } from "@/hook/useSession";
+import { useSession } from "@/hook/useSession";
 
 export default function Home() {
+  const { isLogin, email } = useSession();
   return (
     <>
       <Head>
-        {userFetchSession() ? (
-          <title>{userFetchSession()?.email?.split("@")[0]} | Files</title>
+        {isLogin ? (
+          <title>{email.split("@")[0]} | Files</title>
         ) : (
           <title>Files Stored</title>
         )}

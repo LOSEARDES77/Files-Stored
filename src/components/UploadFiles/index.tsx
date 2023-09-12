@@ -8,7 +8,7 @@ import { v4 as randUUID } from "uuid";
 import { useRouter } from "next/router";
 import { AiFillHome } from "react-icons/ai";
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { getEmail } from "@/hook/useSession";
+import { useSession } from "@/hook/useSession";
 
 export default function UploadFiles({ parentId = "" }: { parentId: string }) {
   const [progress, setProgress] = useState(0);
@@ -18,8 +18,16 @@ export default function UploadFiles({ parentId = "" }: { parentId: string }) {
   const folderId = () => {
     return randUUID();
   };
-  const email = getEmail();
-
+  const { email } = useSession();
+  const showtoast = () => {
+    if (progress === 100) {
+      setTimeout(() => {
+        setProgress(0);
+      }, 3000);
+      return true;
+    }
+    return false;
+  };
   const router = useRouter();
   const uploadFile = (event: ChangeEvent<HTMLInputElement>) => {
     let file = event.target.files?.[0];
@@ -126,6 +134,13 @@ export default function UploadFiles({ parentId = "" }: { parentId: string }) {
           <Progress progress={progress} />
         </div>
       )}
+      {showtoast() ? (
+        <div className="toast toast-end">
+        <div className="alert alert-success">
+          <span>File uploades successfully!</span>
+        </div>
+      </div>
+      ): (<></>)}
     </div>
   );
 }

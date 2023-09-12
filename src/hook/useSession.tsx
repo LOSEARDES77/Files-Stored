@@ -1,17 +1,23 @@
 import { auth } from '@/firebaseConfig'
+import { useState, useEffect } from 'react'
 
-export const userFetchSession = () => {
-    const session = auth.currentUser
-    return session
-}
+export const useSession = () => {
+  const [isLogin, setIsLogin] = useState(false)
+  const [email, setEmail] = useState('')
 
-export const getEmail = () => {
-    return auth.currentUser?.email as string
-}
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLogin(true)
+        setEmail(user.email as string)
+      } else {
+        setIsLogin(false)
+        setEmail('')
+      }
+    })
 
-export const isLogin = () => {
-    return auth.currentUser !== null
+    return unsubscribe
+  }, [])
+
+  return { isLogin, email }
 }
-console.log("src/hook/useSession.tsx")
-console.log("userFetchSession: ", userFetchSession())
-console.log("getEmail: ", getEmail())

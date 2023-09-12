@@ -5,14 +5,15 @@ import UploadFiles from "../UploadFiles";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
-import { isLogin } from "@/hook/useSession";
+import { useSession } from "@/hook/useSession";
 
 export default function TopBar({parentId = "", email = ""}:{parentId: string, email: string}) {
   const name = email?.split("@")[0]
   const router = useRouter();
+  const { isLogin } = useSession();
   return (
     <div className={styles.page}>
-      {isLogin() ? (
+      {isLogin ? (
         <div className={styles.topbar}>
           <UploadFiles parentId={parentId}/>
           <div className={styles.singout}>

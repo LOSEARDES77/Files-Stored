@@ -106,7 +106,7 @@ export default function SingUp() {
           type="password"
           id="confirmPassword"
           value={confirmPassword}
-          placeholder="Type your password"
+          placeholder="Re-enter your password"
           onChange={(e) => setConfirm(e.target.value)}
           className={`input input-bordered w-full max-w-xs ${styles.password}`}
           onKeyDown={(e) => {

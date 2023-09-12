@@ -21,13 +21,6 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 /* const analytics = getAnalytics(app); */
-const a = getAuth(app)
-setPersistence(a, browserLocalPersistence).then(() => {
-  // Persistence set successfully
-})
-.catch((error) => {
-  console.log(error.message)
-});
 export const storage = getStorage(app)
 export const database = getFirestore(app)
-export const auth = a
+export const auth = getAuth(app)
