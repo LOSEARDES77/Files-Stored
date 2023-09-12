@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage"
 import { getFirestore } from "firebase/firestore"
-import { getAuth } from "firebase/auth";
+import { getAuth, setPersistence, browserLocalPersistence } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,10 +18,16 @@ const firebaseConfig = {
   appId: "1:804545655943:web:4a14cccf1d8ea3f66fb422",
   measurementId: "G-59PG1EKBCF"
 };
-
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 /* const analytics = getAnalytics(app); */
+const a = getAuth(app)
+setPersistence(a, browserLocalPersistence).then(() => {
+  // Persistence set successfully
+})
+.catch((error) => {
+  console.log(error.message)
+});
 export const storage = getStorage(app)
 export const database = getFirestore(app)
-export const auth = getAuth(app)
+export const auth = a

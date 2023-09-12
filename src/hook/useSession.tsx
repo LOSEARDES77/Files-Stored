@@ -2,7 +2,7 @@ import { auth } from '@/firebaseConfig'
 
 export const userFetchSession = () => {
     const session = auth.currentUser
-    return {session}
+    return session
 }
 
 export const getEmail = () => {

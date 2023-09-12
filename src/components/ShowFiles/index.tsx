@@ -8,8 +8,8 @@ import { useRouter } from "next/router";
 import { getEmail } from "@/hook/useSession";
 
 export default function ShowFiles({ parentId }: { parentId: string }) {
-  const email = getEmail()
-  let { fileList } = fetchFiles({ parentId, email });
+  const email = getEmail() as string;
+  let { fileList } = fetchFiles( parentId, email );
   const router = useRouter();
   const openFile = (imageLink: string) => {
     window.open(imageLink);
@@ -24,7 +24,6 @@ export default function ShowFiles({ parentId }: { parentId: string }) {
           imageName: "";
           isFolder: boolean;
           folderName: "";
-          owner: "";
         }) => {
           let fe = ""
           if (file.imageName !== "") {

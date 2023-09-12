@@ -36,6 +36,14 @@ export default function login() {
           <input type="password" value={password} placeholder='Type your password' onChange={(e) => setPassword(e.target.value)} className={`input input-bordered w-full max-w-xs ${styles.password}`} />
         </div>
         <Button onClick={handleLogin} btnClass={`btn-info ${styles.btn}`} lable="Log in"/>
+        <div className={styles.alracc}>
+        <p>Don't have an account yet?</p>
+        <Button
+          btnClass={`btn-info`}
+          lable="Sign up"
+          onClick={() => router.push("/auth/signup")}
+        />
+      </div>
       </div>
     );
 }

@@ -1,14 +1,16 @@
 import React from 'react'
 import TopBar from "@/components/Topbar"
 import ShowFiles from '../ShowFiles'
-import { userFetchSession } from '@/hook/useSession'
+import { getEmail, userFetchSession } from '@/hook/useSession'
+import { auth } from '@/firebaseConfig'
 
 export default function HomePage() {
-    let session = userFetchSession()
+    const email = getEmail()
+
     return (
         <>
             <TopBar parentId=''/>
-            {session ? <ShowFiles parentId=''/> : <></>}
+            {email ? <ShowFiles parentId=''/> : <></>}
         </>
   )
 }
