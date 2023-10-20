@@ -12,6 +12,7 @@ export default function Home() {
         ) : (
           <title>Files Stored</title>
         )}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta name="description" content="A cloud storage app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
