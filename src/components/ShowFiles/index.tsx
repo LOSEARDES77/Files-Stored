@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import styles from "@/components/ShowFiles/Files.module.scss";
 import { useFetchFiles } from "@/hook/fetchFiles";
 import { AiFillFileText,  AiOutlineLink } from "react-icons/ai";
+import { ImBin } from "react-icons/im";
 import { FcOpenedFolder } from "react-icons/fc";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import { fileDeletion } from "@/utils/fileDeletion";
+import Button from "@/components/Common/Button";
 
 export default function ShowFiles({
   parentId,
@@ -13,12 +15,13 @@ export default function ShowFiles({
   parentId: string;
   email: string;
 }) {
-  const { fileList } = useFetchFiles(parentId, email);
+  const { fileList } = useFetchFiles(parentId, email)
   const router = useRouter();
   const openFile = (imageLink: string) => {
     window.open(imageLink);
   };
   const [isToastVisible, setToastVisible] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
   const showtoast = () => {
     if (isToastVisible) {
       setTimeout(() => {
@@ -28,7 +31,32 @@ export default function ShowFiles({
     }
     return false;
   };
+  const showDeleteToast = () => {
+    setToastMsg("File deleted");
+    setToastVisible(true);
+  };
+
+  const confirmDelete = (file: any) => {
+    fileDeletion(file, showDeleteToast)
+  }
+
+
+  const delToast = (file: any) => {
+    const modal = document.getElementById("confirmModal") as HTMLDialogElement;
+    modal.showModal();
+    const abort = document.querySelector(".btn-info");
+    const confirm = document.querySelector(".btn-error");
+    abort?.addEventListener("click", () => {
+      modal.close();
+    });
+    confirm?.addEventListener("click", () => {
+      confirmDelete(file)
+      modal.close();
+    });
+    
+  }
   const share = (il: string) => {
+    setToastMsg("Link copied to clipboard!");
     // copy imagelink to clipboard
     navigator.clipboard.writeText(il);
     setToastVisible(true);
@@ -106,6 +134,7 @@ export default function ShowFiles({
                       )}
                     </div>
                     <p className={styles.lable}>{file.imageName}</p>  
+                      <ImBin onClick={() => delToast(file)} className={styles.link} size={20} color="#f8fefc" />{" "}
                       <AiOutlineLink onClick={() => share(file.imageLink)} className={styles.link} size={20} color="#f8fefc" />{" "}
                   </div>
                 )}
@@ -114,10 +143,22 @@ export default function ShowFiles({
           },
         )}
       </div>
+      <dialog id="confirmModal" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Hello!</h3>
+          <p className="py-4">Press ESC key or click the button below to close</p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <Button btnClass="btn-error" lable={"Confirm"} /><Button btnClass="btn-info" lable={"Abort"}/>
+            </form>
+          </div>
+        </div>
+      </dialog>
       {showtoast() ? (
         <div className="toast toast-end">
         <div className="alert alert-info">
-          <span>Copyed link to clipboard!</span>
+          <span>{toastMsg}</span>
         </div>
       </div>
       ) : (
